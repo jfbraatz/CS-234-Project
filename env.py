@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
 
-
-def get_data_npy(loadfile=None):
+def get_data_npy(loadfile='data/train_data.npz'):
     # load existing numpy data
     data = np.load(loadfile)
     X_train = data['X_train']
@@ -18,15 +17,18 @@ def get_data_csv(savefile=None):
 
     # Preprocess the data
     # 1. Drop patients with no warfarin rec
-    # 2. Extract label (warfarin dose) column
-    # 3. Drop patient ID column
+    # 2. Drop label('Therapeutic Dose of Warfarin'), patient ID column
     df = df.dropna(axis=0, subset=['Therapeutic Dose of Warfarin'])
 
-    # TODO: Bucket y values into low, med, high
-    Y_train = df['Therapeutic Dose of Warfarin'].values
-    df = df.drop(columns='Therapeutic Dose of Warfarin')
+    # Extract label (warfarin dose) column and discretize it
+    thresh1 = 21
+    thresh2 = 49
+    Y_train = np.array(df['Therapeutic Dose of Warfarin'].values, dtype=int)
+    Y_train[Y_train < thresh1] = 0
+    Y_train[np.logical_and(Y_train >= thresh1, Y_train <= thresh2)] = 1
+    Y_train[Y_train > thresh2] = 2
 
-    uneeded_columns = ['PharmGKB Subject ID']
+    uneeded_columns = ['Therapeutic Dose of Warfarin', 'PharmGKB Subject ID']
     df = df.drop(columns=uneeded_columns)
 
     # convert csv values to nice integer array
@@ -45,3 +47,5 @@ def get_data_csv(savefile=None):
         np.savez(savefile, X_train=X_train, Y_train=Y_train)
 
     return X_train, Y_train
+
+# x, y = get_data_csv('data/train_data.npz')
