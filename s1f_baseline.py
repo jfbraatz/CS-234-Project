@@ -41,12 +41,26 @@ weight_of_col = {
     'Amiodarone (Cordarone)': -.5695
 }
 
-df['Weekly Dose'] = 4.0376
+df['Daily Dose'] = 4.0376
 for col in df.columns:
-    if col != 'Weekly Dose':
-        df['Weekly Dose'] += weight_of_col[col] * df[col]
-df['Weekly Dose'] = df['Weekly Dose']**2
-df['Therapeutic Dose of Warfarin'] = original['Therapeutic Dose of Warfarin'][df.index]
+    if col != 'Daily Dose':
+        df['Daily Dose'] += weight_of_col[col] * df[col]
+df['Daily Dose'] = df['Daily Dose']**2 / 7.0
+df['Therapeutic Dose of Warfarin'] = original['Therapeutic Dose of Warfarin'][df.index] / 7.0
 
-print(df.head(5))
-print(len(df))
+def dosage_bucket(daily_dosage):
+    if daily_dosage < 3:
+        return 0
+    elif daily_dosage <= 7:
+        return 1
+    else:
+        return 2
+
+df['True Bucket'] = df['Therapeutic Dose of Warfarin'].map(
+        dosage_bucket)
+df['Predicted Bucket'] = df['Daily Dose'].map(
+        dosage_bucket)
+
+#print(df.head(5))
+#print(len(df))
+print("Basline Accuracy: %f" % (sum(df['True Bucket'] == df['Predicted Bucket'])/len(df)))
