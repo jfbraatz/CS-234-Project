@@ -15,12 +15,16 @@ class WarfarinBandit():
         num_correct = 0
         for i in range(num_samples):
             prediction = self.predict(X_shuffled[i, :])
-            if prediction == Y_shuffled[i]: 
-                num_correct += 1
+            reward = 1 if prediction == Y_shuffled[i] else 0
+            self.update_reward(reward, prediction, X_shuffled[i, :])
+            num_correct += reward
 
         performance = float(num_correct) / num_samples
         print('Performance:', performance)
         return performance
 
     def predict(self, x):
+        pass
+
+    def update_reward(self, r, a, x):
         pass

@@ -1,5 +1,8 @@
 import pandas as pd
 import numpy as np
+import os.path
+
+from LinUCB import *
 
 def get_data_npy(loadfile='data/train_data.npz'):
     # load existing numpy data
@@ -33,6 +36,7 @@ def get_data_csv(savefile=None):
 
     # convert csv values to nice integer array
     X_train = np.zeros(df.shape, dtype=int)
+    col_dtypes = df.dtypes
     col = 0
     for name, values in df.iteritems():
         values_to_ints = df[name].unique()
@@ -48,4 +52,42 @@ def get_data_csv(savefile=None):
 
     return X_train, Y_train
 
-# x, y = get_data_csv('data/train_data.npz')
+data_file = 'data/train_data.npz'
+if os.path.isfile(data_file): 
+    X, Y = get_data_npy()
+else:
+    X, Y = get_data_csv(data_file)
+
+num_samples, N = X.shape
+shuffled = np.random.permutation(np.column_stack((Y, X)))
+Y_shuffled = shuffled[:, 0]
+X_shuffled = shuffled[:, 1:]
+
+action_dim = 3
+
+delta = 0.1
+alpha = 1 + np.sqrt(np.log(2/delta)/2)
+agent = LinUCB(alpha, action_dim, N)
+
+print("Simulating", num_samples, "patients...")
+
+predictions = []
+rewards = []
+for i in range(num_samples):
+    prediction = agent.predict(X_shuffled[i, :])
+    reward = 1 if prediction == Y_shuffled[i] else 0
+    agent.update_reward(reward, prediction, X_shuffled[i, :])
+    predictions.append(prediction)
+    rewards.append(reward)
+
+intervals = agent.confidence_intervals
+
+if 1:
+    logfile = 'log/log.txt'
+    with open(logfile, 'w') as f:
+        for i in range(num_samples):
+            line = f'reward: {rewards[i]},\t prediction: {predictions[i]}\n'
+            f.write(line)
+
+performance = float(np.sum(rewards)) / num_samples
+print('Performance:', performance)
