@@ -52,7 +52,7 @@ def get_data_csv(savefile=None):
 
     return X_train, Y_train
 
-data_file = 'data/train_data.npz'
+data_file = 'features.npz'
 if os.path.isfile(data_file): 
     X, Y = get_data_npy()
 else:
