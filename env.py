@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os.path
 
-from LinUCB import *
+from linUCBAgent import *
 
 def get_data_npy(loadfile='data/train_data.npz'):
     # load existing numpy data
@@ -54,7 +54,7 @@ def get_data_csv(savefile=None):
 
 data_file = 'features.npz'
 if os.path.isfile(data_file): 
-    X, Y = get_data_npy()
+    X, Y = get_data_npy(data_file)
 else:
     X, Y = get_data_csv(data_file)
 
@@ -67,15 +67,15 @@ action_dim = 3
 
 delta = 0.1
 alpha = 1 + np.sqrt(np.log(2/delta)/2)
-agent = LinUCB(alpha, action_dim, N)
+agent = LinUCBAgent(alpha, action_dim, N)
 
 print("Simulating", num_samples, "patients...")
 
 predictions = []
 rewards = []
 for i in range(num_samples):
-    prediction = agent.predict(X_shuffled[i, :])
-    reward = 1 if prediction == Y_shuffled[i] else 0
+    prediction = agent.predict(np.expand_dims(X_shuffled[i, :], axis=1))
+    reward = 0 if prediction == Y_shuffled[i] else -1
     agent.update_reward(reward, prediction, X_shuffled[i, :])
     predictions.append(prediction)
     rewards.append(reward)
@@ -89,5 +89,5 @@ if 1:
             line = f'reward: {rewards[i]},\t prediction: {predictions[i]}\n'
             f.write(line)
 
-performance = float(np.sum(rewards)) / num_samples
+performance = float(np.sum(rewards) + num_samples) / num_samples
 print('Performance:', performance)

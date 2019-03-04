@@ -32,6 +32,8 @@ for race in weight_of_race:
 for index, row in df.iterrows():
     df[df['Race'][index]][index] = 1
 
+
+
 def dosage_bucket(daily_dosage):
     if daily_dosage < 3:
         return 0
@@ -42,7 +44,9 @@ def dosage_bucket(daily_dosage):
 
 Y = df['Therapeutic Dose of Warfarin'].map(
         dosage_bucket).values
-df.drop(columns=['Race', 'Therapeutic Dose of Warfarin'])
+df = df.drop(columns=['Race', 'Therapeutic Dose of Warfarin'])
+
+print(df.head(5))
 
 X = df.values
 np.savez("features.npz", X_train=X, Y_train=Y)
