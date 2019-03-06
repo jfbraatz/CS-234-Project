@@ -1,41 +1,30 @@
 import numpy as np
 
 class LinUCBAgent():
+    # Performance: 0.4311969839773798
 
     def __init__(self, alpha, action_dim, feature_dim):
         self.A = []
         self.b = []
         for a in range(action_dim):
-            self.A.append(np.identity(feature_dim))
-            self.b.append(np.zeros((feature_dim, 1)))
-
+            self.A.append(np.eye(feature_dim))
+            self.b.append(np.zeros(feature_dim))
         self.alpha = alpha
         self.action_dim = action_dim
+        self.feature_dim = feature_dim
         self.confidence_intervals = []
-
+    
     def predict(self, x):
-        scores = []
-        intervals = []
+        intervals = np.zeros((self.action_dim, 1))
+        theta = np.zeros((self.action_dim, self.feature_dim))
         for a in range(self.action_dim):
             A_inv = np.linalg.inv(self.A[a])
-            theta = np.dot(A_inv,  self.b[a])
-            interval = self.alpha * np.sqrt(np.dot(np.dot(x.T, A_inv), x))
-            intervals.append(interval)
-            p = np.dot(theta.T, x) + interval
-            scores.append(p) 
-
+            theta[a, :] = np.dot(A_inv, self.b[a])
+            intervals[a] = self.alpha * np.sqrt(np.dot(np.dot(x.T, A_inv), x))
         self.confidence_intervals.append(intervals)
-        prediction = np.argmax(scores)
-        # print(predictions)
-        # if predictions.shape[0] > 1:
-        #     prediction = np.random.choice(predictions)
-        # else:
-        #     prediction = predictions[0]
+        scores = np.dot(theta, x) + intervals
+        return np.argmax(scores)
 
-        return prediction
-
-    def update_reward(self, reward, a, x):
+    def update_reward(self, r, a, x):
         self.A[a] = self.A[a] + np.dot(x, x.T)
-        self.b[a] = self.b[a] + reward * x
-
-
+        self.b[a] = self.b[a] + r * x
