@@ -58,11 +58,15 @@ if os.path.isfile(data_file):
 else:
     X, Y = get_data_csv(data_file)
 
-num_samples, N = X.shape
-shuffled = np.random.permutation(np.column_stack((Y, X)))
-Y_shuffled = shuffled[:, 0]
-X_shuffled = shuffled[:, 1:]
-
+shuffle = True
+X_shuffled = X
+Y_shuffled = Y
+if shuffle:
+    num_samples, N = X.shape
+    shuffled = np.random.permutation(np.column_stack((Y, X)))
+    Y_shuffled = shuffled[:, 0]
+    X_shuffled = shuffled[:, 1:]
+print(X.shape)
 action_dim = 3
 
 delta = 0.1

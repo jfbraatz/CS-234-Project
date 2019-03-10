@@ -11,6 +11,7 @@ dropna_cols = ['Age', 'Height (cm)', 'Weight (kg)',
           'Rifampin or Rifampicin', 'Amiodarone (Cordarone)']
 excluded_from_dropna = ['Race']
 
+#TODO:don't use dropna, keep all patents and set nan to 0
 df = original[dropna_cols + excluded_from_dropna]
 df.dropna(subset=dropna_cols, inplace=True)
 
@@ -29,10 +30,11 @@ df['Age'] = df['Age'].map(lambda a: int(a[0]))
 for race in weight_of_race:
     df[race] = 0
 
+#TODO: Make sure nan is working here
 for index, row in df.iterrows():
     df[df['Race'][index]][index] = 1
 
-
+#TODO: normalize all features to mean 0 variance 1.
 
 def dosage_bucket(daily_dosage):
     if daily_dosage < 3:
@@ -42,8 +44,7 @@ def dosage_bucket(daily_dosage):
     else:
         return 2
 
-Y = df['Therapeutic Dose of Warfarin'].map(
-        dosage_bucket).values
+Y = df['Therapeutic Dose of Warfarin'].map(dosage_bucket).values
 df = df.drop(columns=['Race', 'Therapeutic Dose of Warfarin'])
 
 print(df.head(5))
