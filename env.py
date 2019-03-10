@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import os.path
 
-from linUCBAgent import *
+from linUCBHybridAgent import *
 
 def get_data_npy(loadfile='data/train_data.npz'):
     # load existing numpy data
@@ -71,20 +71,21 @@ action_dim = 3
 
 delta = 0.1
 alpha = 1 + np.sqrt(np.log(2/delta)/2)
-agent = LinUCBAgent(alpha, action_dim, N)
+agent = LinUCBHybridAgent(alpha, action_dim, N, N)
 
 print("Simulating", num_samples, "patients...")
 
 predictions = []
 rewards = []
 for i in range(num_samples):
-    prediction = agent.predict(np.expand_dims(X_shuffled[i, :], axis=1))
+    X = np.expand_dims(X_shuffled[i, :], axis=1)
+    prediction = agent.predict(X, X)
     reward = 0 if prediction == Y_shuffled[i] else -1
-    agent.update_reward(reward, prediction, X_shuffled[i, :])
+    agent.update_reward(reward, prediction, X, X)
     predictions.append(prediction)
     rewards.append(reward)
 
-intervals = agent.confidence_intervals
+#intervals = agent.confidence_intervals
 
 if 1:
     logfile = 'log/log.txt'

@@ -8,7 +8,7 @@ class LinUCBAgent():
         self.b = []
         for a in range(action_dim):
             self.A.append(np.eye(feature_dim))
-            self.b.append(np.zeros(feature_dim))
+            self.b.append(np.zeros((feature_dim, 1)))
         self.alpha = alpha
         self.action_dim = action_dim
         self.feature_dim = feature_dim
@@ -19,7 +19,7 @@ class LinUCBAgent():
         theta = np.zeros((self.action_dim, self.feature_dim))
         for a in range(self.action_dim):
             A_inv = np.linalg.inv(self.A[a])
-            theta[a, :] = np.dot(A_inv, self.b[a])
+            theta[a, :] = np.dot(A_inv, self.b[a])[:, 0]
             intervals[a] = self.alpha * np.sqrt(np.dot(np.dot(x.T, A_inv), x))
         self.confidence_intervals.append(intervals)
         scores = np.dot(theta, x) + intervals
