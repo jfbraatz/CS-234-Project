@@ -1,6 +1,4 @@
-from warfarinbandit import WarfarinBandit
-
-class Baseline1(WarfarinBandit):
+class Baseline1():
     # Performance: 0.6146888567293777
     
     def predict(self, x):

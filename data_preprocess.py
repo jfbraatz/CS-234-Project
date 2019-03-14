@@ -57,3 +57,42 @@ df = df.fillna(0)
 
 X = df.values
 np.savez("features.npz", X_train=X, Y_train=Y)
+
+def get_data_csv(savefile=None):
+    # reading csv file
+    filename = "data/warfarin.csv"
+    df = pd.read_csv(filename)
+
+    # Preprocess the data
+    # 1. Drop patients with no warfarin rec
+    # 2. Drop label('Therapeutic Dose of Warfarin'), patient ID column
+    df = df.dropna(axis=0, subset=['Therapeutic Dose of Warfarin'])
+
+    # Extract label (warfarin dose) column and discretize it
+    thresh1 = 21
+    thresh2 = 49
+    Y_train = np.array(df['Therapeutic Dose of Warfarin'].values, dtype=int)
+    Y_train[Y_train < thresh1] = 0
+    Y_train[np.logical_and(Y_train >= thresh1, Y_train <= thresh2)] = 1
+    Y_train[Y_train > thresh2] = 2
+
+    uneeded_columns = ['Therapeutic Dose of Warfarin', 'PharmGKB Subject ID']
+    df = df.drop(columns=uneeded_columns)
+
+    # convert csv values to nice integer array
+    X_train = np.zeros(df.shape, dtype=int)
+    col_dtypes = df.dtypes
+    col = 0
+    for name, values in df.iteritems():
+        values_to_ints = df[name].unique()
+
+        next_int = 0
+        for row, val in enumerate(values):
+            X_train[row, col] = np.where(values_to_ints == val)[0][0] if val in values_to_ints else -1
+        col += 1
+
+    # save preprocessed data to file
+    if savefile:
+        np.savez(savefile, X_train=X_train, Y_train=Y_train)
+
+    return X_train, Y_train

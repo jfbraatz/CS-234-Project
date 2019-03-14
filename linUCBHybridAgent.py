@@ -19,7 +19,10 @@ class LinUCBHybridAgent():
         self.d = d
         self.k = k
     
-    def predict(self, x, z):
+    def predict(self, x, z=None):
+        if z == None:
+            z = x
+            
         beta = np.dot(np.linalg.inv(self.A_0), self.b_0)
         upper_confidence_bounds = []
         for a in range(self.num_actions):
@@ -44,7 +47,10 @@ class LinUCBHybridAgent():
 
         return np.argmax(upper_confidence_bounds)
 
-    def update_reward(self, r, a, x, z):
+    def update_reward(self, r, a, x, z=None):
+        if z == None:
+            z = x
+
         BT_A_inv = np.dot(self.B[a].T, np.linalg.inv(self.A[a]))
         A_0_delta = np.dot(BT_A_inv, self.B[a])
         b_0_delta = np.dot(BT_A_inv, self.b[a])

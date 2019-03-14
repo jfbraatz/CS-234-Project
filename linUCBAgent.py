@@ -1,7 +1,7 @@
 import numpy as np
 
 class LinUCBAgent():
-    # Performance: 0.4311969839773798
+    # Performance: 0.6235528219971056
 
     def __init__(self, alpha, action_dim, feature_dim):
         self.A = []
