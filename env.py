@@ -4,6 +4,7 @@ import os.path
 import matplotlib.pyplot as plt
 import argparse
 
+from LASSOBandit import *
 from linUCBHybridAgent import *
 from linUCBAgent import *
 
@@ -16,7 +17,7 @@ def get_data_npy(loadfile='data/train_data.npz'):
     return X_train, Y_train
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-a', '--agent', help="baseline, linUCB, hybrid", default='linUCB')
+parser.add_argument('-a', '--agent', help="baseline, linUCB, hybrid, LASSO", default='linUCB')
 parser.add_argument('-d', '--delta', default=0.1, type=float)
 parser.add_argument('-p', '--plot', action='store_false')
 parser.add_argument('-l', '--log', action='store_true')
@@ -45,7 +46,6 @@ if args.num_test:
     test_interval = 500
     test_performances = []
     test_intervals = []
-    confidence_intervals = []
 
 num_train, N = X_train.shape
 print('Features size:', N)
@@ -58,6 +58,8 @@ elif args.agent == 'linUCB':
     agent = LinUCBAgent(alpha, action_dim, N)
 elif args.agent == 'hybrid':
     agent = LinUCBHybridAgent(alpha, action_dim, N, N)
+elif args.agent == 'LASSO':
+    agent = LASSOBandit(action_dim, N, 1, 5, 0.05, 0.05)
 else:
     print("Invalid agent")
     quit()
@@ -74,13 +76,11 @@ for j in range(args.num_trials):
 
     regret.append([0.0])
     if args.num_test:
-        confidence_intervals.append([])
         test_performances.append([])
         test_intervals.append([])
     for i in range(num_train):
         if args.num_test and i % test_interval == 0:
             test_intervals[j].append(i)
-            confidence_intervals[j].append(agent.confidence_intervals)
             test_regret = 0
             for i_test in range(args.num_test):
                 x_test = np.expand_dims(X_test[i_test, :], axis=1)
@@ -100,11 +100,12 @@ for j in range(args.num_trials):
         if args.agent == 'linUCB':
             agent.update_reward(reward, prediction, x)
         elif args.agent == 'hybrid':
-            agent.update_reward(reward, prediction, x, x)        
+            agent.update_reward(reward, prediction, x, x)
+        elif args.agent == 'LASSO':
+            agent.update_reward(reward)      
 
     if args.num_test:
         test_intervals[j].append(i)
-        confidence_intervals[j].append(agent.confidence_intervals)
         test_regret = 0
         for i_test in range(args.num_test):
             x_test = np.expand_dims(X_test[i_test, :], axis=1)
@@ -121,14 +122,6 @@ for j in range(args.num_trials):
 
     print('Performance:', performance)
     print('Total Regret:', regret[j][-1])
-
-if args.num_test: 
-    confidence_intervals = np.array(confidence_intervals)
-    confidence_intervals = confidence_intervals.reshape(confidence_intervals.shape[0:3])
-    avg_confidence_intervals= np.mean(confidence_intervals, axis=0)
-
-    test_performances = np.array(test_performances)
-    avg_test_performances = np.mean(test_performances, axis=0)
 
 regret = np.array(regret)[:, 1:]
 avg_regret = np.mean(regret, axis=0).reshape(-1)
@@ -149,19 +142,21 @@ if args.plot:
     plt.plot(t, np.sqrt(action_dim * N * t), label='asymtotic bound')
     plt.plot(t, t,label='linear')
     plt.legend(loc='best')
-    plt.title('Average Regret')
+    plt.title(f'Average Regret for {args.agent}')
     plt.show()
 
     err_min = np.abs(avg_incorrect_decisions - np.min(incorrect_decisions, axis=0))
     err_max = np.abs(avg_incorrect_decisions - np.max(incorrect_decisions, axis=0))
     plt.errorbar(t, avg_incorrect_decisions, yerr=[err_min, err_max], ecolor='lavender', label=args.agent)
     plt.legend(loc='best')
-    plt.title('Average Incorrect decisions')
+    plt.title(f'Average Incorrect decisions for {args.agent}')
     plt.show()
 
     if args.num_test:
+        test_performances = np.array(test_performances)
+        avg_test_performances = np.mean(test_performances, axis=0)
         plt.plot(test_intervals[0], avg_test_performances)
-        plt.title('Test performance over time')
+        plt.title(f'Test performance over time for {args.agent}')
         plt.show()
 
 if args.log:

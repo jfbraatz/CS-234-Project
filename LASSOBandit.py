@@ -2,6 +2,7 @@ import numpy as np
 from sklearn.linear_model import Lasso
 
 class LASSOBandit():
+    # Performance: 0.6306078147612156
 
     def __init__(self, K, d, q, h, lambda_1, lambda_2_0):
         self.K = K
@@ -22,7 +23,7 @@ class LASSOBandit():
         self.T__ = ['dummy']
         self.S = ['dummy']
 
-        n_max = 10 # TODO find a less lazy solution to this
+        n_max = 13 # TODO find a less lazy solution to this
         for i in self.actions:
             self.T__.append([set()])
             self.S.append([set()])
@@ -32,12 +33,12 @@ class LASSOBandit():
             
 
     def beta(self, S, lambd):
-        lasso = Lasso(alpha=lambd)
+        lasso = Lasso(alpha=lambd/2, fit_intercept=False)
         X = [self.X[i] for i in S]
         Y = [self.Y[i] for i in S]
-        print(X, Y)
+        X = np.array(X)
+        X = X.reshape(X.shape[0], -1)
         lasso.fit(X, Y)
-        #print(lasso.coef_)
         return lasso.coef_
     
     def predict(self, X_t):
@@ -51,18 +52,18 @@ class LASSOBandit():
                 pi = i
                 break
         else:
-            maximum = max([np.dot(X_t,
+            maximum = max([np.dot(X_t.T,
                 self.beta(self.T__[j][t-1],
                     self.lambda_1))
                 for j in self.actions])
             K_hat = {k for k in self.actions
-                    if (np.dot(X_t, self.beta(
+                    if (np.dot(X_t.T, self.beta(
                         self.T__[k][t-1], self.lambda_1)) >=
                         maximum - self.h/2.)}
             #print(K_hat)
             #for i in self.actions:
                 #print(i, self.S[i][t-1])
-            pi = max([(np.dot(X_t, self.beta(self.S[k][t-1],
+            pi = max([(np.dot(X_t.T, self.beta(self.S[k][t-1],
                 self.lambda_2[t-1])), k)
                 for k in K_hat])[1]
 
@@ -76,7 +77,7 @@ class LASSOBandit():
 #            print(i, self.S[i])
 
 
-        return pi
+        return (pi - 1)
 
     def update_reward(self, r):
         self.Y.append(r)

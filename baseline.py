@@ -3,6 +3,3 @@ class Baseline1():
     
     def predict(self, x):
         return 1
-
-baseline = Baseline1()
-baseline.simulate()
