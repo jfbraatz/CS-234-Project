@@ -1,5 +1,77 @@
+Namespace(agent=['linUCB', 'fixed_dose', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************linUCB
+Regret: 2120.0
+Average performance: 0.6164978292329957
+Incorrect: 0.3835021707670043
+----------------------------
 fixed_dose
 Regret: 2146.0
 Average performance: 0.611794500723589
 Incorrect: 0.388205499276411
 ----------------------------
+s1f
+Regret: 4030.0
+Average performance: 0.27098408104196814
+Incorrect: 0.7290159189580319
+----------------------------
+Namespace(agent=['linUCB', 'fixed_dose', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'fixed_dose', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'fixed_dose', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2120.0
+Average performance: 0.6164978292329957
+Incorrect: 0.3835021707670043
+----------------------------
+fixed_dose
+Regret: 2146.0
+Average performance: 0.611794500723589
+Incorrect: 0.388205499276411
+----------------------------
+s1f
+Regret: 4030.0
+Average performance: 0.27098408104196814
+Incorrect: 0.7290159189580319
+----------------------------
+Namespace(agent=['linUCB', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2094.0
+Average performance: 0.6212011577424024
+Incorrect: 0.3787988422575977
+----------------------------
+Namespace(agent=['linUCB', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2094.0
+Average performance: 0.6212011577424024
+Incorrect: 0.3787988422575977
+----------------------------
+s1f
+Regret: 4032.0
+Average performance: 0.27062228654124454
+Incorrect: 0.7293777134587555
+----------------------------
+Namespace(agent=['linUCB', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2094.0
+Average performance: 0.6212011577424024
+Incorrect: 0.3787988422575977
+----------------------------
+s1f
+Regret: 4032.0
+Average performance: 0.27062228654124454
+Incorrect: 0.7293777134587555
+----------------------------
+Namespace(agent=['linUCB', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+s1f
+Regret: 2582.0
+Average performance: 0.5329232995658466
+Incorrect: 0.4670767004341534
+----------------------------
+Namespace(agent=['linUCB', 's1f'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************

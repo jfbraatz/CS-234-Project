@@ -34,6 +34,12 @@ else:
     print(f'datafile {args.datafile} not found')
     quit()
 
+
+logfile = 'log/log.txt'
+with open(logfile, 'a+') as f:
+    f.write(f'{args}\n')
+    f.write('******************\n')
+
 np.random.seed(args.seed)
 shuffled = np.random.permutation(np.column_stack((Y, X)))
 Y_train = shuffled[:, 0]
@@ -166,7 +172,7 @@ for agent_name in args.agent:
             test_ax.plot(test_intervals[0], avg_test_performances, label=agent_name)
 
         logfile = 'log/log.txt'
-        with open(logfile, 'w') as f:
+        with open(logfile, 'a+') as f:
             f.write(f'{agent_name}\n')
             f.write(f'Regret: {avg_regret[-1]}\n')
             f.write(f'Average performance: {avg_performance}\n')
