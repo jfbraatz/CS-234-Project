@@ -11,15 +11,23 @@ df = original
 df.dropna(axis=0, subset=['Therapeutic Dose of Warfarin'], inplace=True)
 num_rows = len(df)
 
+enzyme_status_cols = ['Carbamazepine (Tegretol)', 'Phenytoin (Dilantin)',
+                      'Rifampin or Rifampicin']
+
+df['Enzyme Status'] = df[enzyme_status_cols].apply(
+    lambda x: int(reduce(np.logical_xor, x)), axis=1)
+    
 drop_cols = [
         'PharmGKB Subject ID',
         'Subject Reached Stable Dose of Warfarin',
         'INR on Reported Therapeutic Dose of Warfarin',
         'Comorbidities',
-        'Medications'
+        'Medications',
+        'Indication for Warfarin Treatment',
+        'Estimated Target INR Range Based on Indication',
         ]
 
-drop_thresh = .75
+drop_thresh = .5
 for col in df.columns:
     if df[col].isnull().sum() > num_rows * drop_thresh:
         drop_cols.append(col)
@@ -41,25 +49,20 @@ def map_age(a):
  
 df['Age'] = df['Age'].map(map_age)
 
-multi_categorical_cols = [
-        'Indication for Warfarin Treatment',
-        ]
+# df = df.applymap(lambda s:s.lower() if type(s) == str else s)
+# multi_categorical_cols = [
+#         'Indication for Warfarin Treatment',
+#         ]
 
-def to_comma_separated(s, delims):
-    return ','.join(re.sub('['+''.join(delims)+']( )+', '_', str(s)).split('_'))
+# def to_comma_separated(s, delims):
+#     return ','.join(re.sub('['+''.join(delims)+']( )+', '_', str(s)).split('_'))
 
 
-for col in multi_categorical_cols:
-    df[col] = df[col].map(
-            lambda x: to_comma_separated(x, [',', ';']))
-    df = df.join(df[col].str.get_dummies(sep=',').add_prefix(col+'_'))
-    df.drop(columns=[col], inplace=True)
-
-enzyme_status_cols = ['Carbamazepine (Tegretol)', 'Phenytoin (Dilantin)',
-                      'Rifampin or Rifampicin']
-
-df['Enzyme Status'] = df[enzyme_status_cols].apply(
-    lambda x: int(reduce(np.logical_xor, x)), axis=1)
+# for col in multi_categorical_cols:
+#     df[col] = df[col].map(
+#             lambda x: to_comma_separated(x, [',', ';']))
+#     df = df.join(df[col].str.get_dummies(sep=',').add_prefix(col+'_'))
+#     df.drop(columns=[col], inplace=True)
 
 categorical_cols = [
         'Race',
@@ -82,12 +85,12 @@ categorical_cols = [
         'Simvastatin (Zocor)',
         'Amiodarone (Cordarone)',
         'Current Smoker',
-        'Estimated Target INR Range Based on Indication',
-        'VKORC1 2255 consensus',
-        'VKORC1 497 consensus',
-        'VKORC1 genotype: 2255C>T (7566); chr16:31011297; rs2359612; A/G',
-        'VKORC1 genotype: 497T>G (5808); chr16:31013055; rs2884737; A/C',
+
         ]
+        # 'VKORC1 2255 consensus',
+        # 'VKORC1 497 consensus',
+        # 'VKORC1 genotype: 2255C>T (7566); chr16:31011297; rs2359612; A/G',
+        # 'VKORC1 genotype: 497T>G (5808); chr16:31013055; rs2884737; A/C',
 df = pd.get_dummies(df, dummy_na=True, columns=categorical_cols)
 
 df['Therapeutic Dose of Warfarin'] = df['Therapeutic Dose of Warfarin'] / 7.0

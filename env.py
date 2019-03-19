@@ -51,8 +51,6 @@ if args.num_test:
     X_train = X_train[:-args.num_test, :]
     Y_train = Y_train[:-args.num_test]
     test_interval = 500
-    test_performances = []
-    test_intervals = []
 
 num_train, N = X_train.shape
 print('Features size:', N)
@@ -61,6 +59,8 @@ action_dim = 3
 print(args.agent)
 
 if args.plot:
+    colors = {"fixed_dose":"red", "linUCB":"blue", "hybrid":"green", "LASSO":"purple"}
+    colorse = {"fixed_dose":"lightcoral", "linUCB":"skyblue", "hybrid":"springgreen", "LASSO":"violet"}
     regret_fig = plt.figure()
     regret_ax = regret_fig.add_subplot(111)
 
@@ -87,6 +87,8 @@ for agent_name in args.agent:
         print("Invalid agent")
         continue
 
+    test_performances = []
+    test_intervals = []
     regret = []
     performances = []
     for j in range(args.num_trials):
@@ -160,16 +162,16 @@ for agent_name in args.agent:
 
     if args.plot:
         t = np.arange(num_train)
-        regret_ax.plot(t, avg_regret, label=agent_name)
+        regret_ax.plot(t, avg_regret, label=agent_name, color=colors[agent_name])
 
         err_min = np.abs(avg_incorrect_decisions - np.min(incorrect_decisions, axis=0))
         err_max = np.abs(avg_incorrect_decisions - np.max(incorrect_decisions, axis=0))
-        performance_ax.errorbar(t, avg_incorrect_decisions, yerr=[err_min, err_max], ecolor='lavender', label=agent_name)
+        performance_ax.errorbar(t, avg_incorrect_decisions, yerr=[err_min, err_max], color=colors[agent_name], ecolor=colorse[agent_name], label=agent_name)
 
         if args.num_test:
             test_performances = np.array(test_performances)
             avg_test_performances = np.mean(test_performances, axis=0)
-            test_ax.plot(test_intervals[0], avg_test_performances, label=agent_name)
+            test_ax.plot(test_intervals[0], avg_test_performances, label=agent_name, color=colors[agent_name])
 
         logfile = 'log/log.txt'
         with open(logfile, 'a+') as f:

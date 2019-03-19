@@ -62,5 +62,6 @@ df['Predicted Bucket'] = df['Daily Dose'].map(
         dosage_bucket)
 
 #print(df.head(5))
-#print(len(df))
+print(len(df))
 print("Basline Accuracy: %f" % (sum(df['True Bucket'] == df['Predicted Bucket'])/len(df)))
+# Basline Accuracy: 0.650801

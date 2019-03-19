@@ -52,14 +52,11 @@ class LASSOBandit():
                 pi = i
                 break
         else:
-            maximum = max([np.dot(X_t.T,
-                self.beta(self.T__[j][t-1],
-                    self.lambda_1))
-                for j in self.actions])
+            scores = [np.dot(X_t.T, self.beta(self.T__[j][t-1], self.lambda_1)) for j in self.actions]
+            maximum = np.max(scores)
+            scores.insert(0, 'dummy')
             K_hat = {k for k in self.actions
-                    if (np.dot(X_t.T, self.beta(
-                        self.T__[k][t-1], self.lambda_1)) >=
-                        maximum - self.h/2.)}
+                    if (scores[k] >= maximum - self.h/2.)}
             #print(K_hat)
             #for i in self.actions:
                 #print(i, self.S[i][t-1])
