@@ -203,3 +203,284 @@ Regret: 1556.7
 Average performance: 0.6903937947494033
 Incorrect: 0.3096062052505966
 Test: 0.7404----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=2, plot=True, seed=42)
+******************
+linUCB
+Regret: 1898.0
+Average performance: 0.6566570188133141
+Incorrect: 0.34334298118668594
+----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 1669.2
+Average performance: 0.6980463096960927
+Incorrect: 0.3019536903039074
+----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 1669.2
+Average performance: 0.6980463096960927
+Incorrect: 0.3019536903039074
+----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=5, plot=True, seed=42)
+******************
+linUCB
+Regret: 1739.4
+Average performance: 0.6853473227206947
+Incorrect: 0.31465267727930535
+----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 1669.2
+Average performance: 0.6980463096960927
+Incorrect: 0.3019536903039074
+----------------------------
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 2019.1
+Average performance: 0.6347503617945007
+Incorrect: 0.36524963820549927
+----------------------------
+Namespace(agent=['linUCB', 'fixed_dose', 'hybrid'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 2019.1
+Average performance: 0.6347503617945007
+Incorrect: 0.36524963820549927
+----------------------------
+fixed_dose
+Regret: 2146.0
+Average performance: 0.6117945007235889
+Incorrect: 0.388205499276411
+----------------------------
+hybrid
+Regret: 2033.8
+Average performance: 0.6320911722141824
+Incorrect: 0.3679088277858176
+----------------------------
+Namespace(agent=['linUCB', 'fixed_dose'], datafile='features.npz', delta=0.1, num_test=0, num_trials=5, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'fixed_dose', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB'], datafile='features.npz', delta=0.1, num_test=500, num_trials=2, plot=True, seed=42)
+******************
+linUCB
+Regret: 1897.5
+Average performance: 0.6226133651551312
+Incorrect: 0.3773866348448688
+Test: 0.724----------------------------
+Namespace(agent=['linUCB', 'fixed_dose', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 1909.3
+Average performance: 0.6202665075576769
+Incorrect: 0.37973349244232296
+Test: 0.7224----------------------------
+fixed_dose
+Regret: 1976.0
+Average performance: 0.6070007955449483
+Incorrect: 0.3929992044550517
+Test: 0.66----------------------------
+hybrid
+Regret: 1908.1
+Average performance: 0.620505171042164
+Incorrect: 0.3794948289578361
+Test: 0.7152----------------------------
+Namespace(agent=['linUCB', 'fixed_dose', 'hybrid', 'sf1'], datafile='features_old.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 605.2
+Average performance: 0.6268803945745993
+Incorrect: 0.3731196054254008
+Test: 0.6476000000000001----------------------------
+fixed_dose
+Regret: 585.0
+Average performance: 0.6393341553637484
+Incorrect: 0.36066584463625156
+Test: 0.628----------------------------
+hybrid
+Regret: 600.6
+Average performance: 0.6297163995067817
+Incorrect: 0.3702836004932183
+Test: 0.6454000000000001----------------------------
+Namespace(agent=['linUCB', 's1f', 'fixed_dose', 'hybrid'], datafile='features_old.npz', delta=0.1, num_test=500, num_trials=3, plot=True, seed=42)
+******************
+linUCB
+Regret: 607.0
+Average performance: 0.6257706535141799
+Incorrect: 0.37422934648582
+Test: 0.6513333333333334----------------------------
+s1f
+Regret: 1291.0
+Average performance: 0.20406905055487057
+Incorrect: 0.7959309494451294
+Test: 0.20399999999999996----------------------------
+fixed_dose
+Regret: 585.0
+Average performance: 0.6393341553637484
+Incorrect: 0.36066584463625156
+Test: 0.628----------------------------
+hybrid
+Regret: 600.0
+Average performance: 0.6300863131935882
+Incorrect: 0.36991368680641185
+Test: 0.6393333333333334----------------------------
+Namespace(agent=['linUCB', 's1f', 'fixed_dose', 'hybrid'], datafile='features_old.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 787.6
+Average performance: 0.6288407163053724
+Incorrect: 0.3711592836946277
+----------------------------
+s1f
+Regret: 1689.0
+Average performance: 0.20405278039585295
+Incorrect: 0.7959472196041472
+----------------------------
+fixed_dose
+Regret: 771.0
+Average performance: 0.6366635249764372
+Incorrect: 0.36333647502356264
+----------------------------
+hybrid
+Regret: 781.8
+Average performance: 0.6315739868049011
+Incorrect: 0.368426013195099
+----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2069.0
+Average performance: 0.6257235890014472
+Incorrect: 0.3742764109985528
+----------------------------
+LASSO
+Regret: 1892.0
+Average performance: 0.6577424023154848
+Incorrect: 0.3422575976845152
+----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 2019.1
+Average performance: 0.6347503617945007
+Incorrect: 0.36524963820549927
+----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2069.0
+Average performance: 0.6257235890014472
+Incorrect: 0.3742764109985528
+----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2069.0
+Average performance: 0.6257235890014472
+Incorrect: 0.3742764109985528
+----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 2019.1
+Average performance: 0.6347503617945007
+Incorrect: 0.36524963820549927
+----------------------------
+LASSO
+Regret: 1874.2
+Average performance: 0.6609623733719246
+Incorrect: 0.3390376266280753
+----------------------------
+Namespace(agent=['linUCB', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 1909.3
+Average performance: 0.6202665075576769
+Incorrect: 0.37973349244232296
+Test: 0.7224----------------------------
+Namespace(agent=['linUCB', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+hybrid
+Regret: 1907.2
+Average performance: 0.6206841686555291
+Incorrect: 0.37931583134447094
+Test: 0.7213999999999998----------------------------
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, seed=42)
+******************
+linUCB
+Regret: 4858.5
+Average performance: 0.03371121718377088
+Incorrect: 0.9662887828162292
+Test: 0.03380000000000003----------------------------
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1ddf8f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1dc48f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a249b1f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1b3d1f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a20a04f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a24917f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'hybrid'], datafile='features_real.npz', delta=0.1, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1be18f28>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, no_linucb=False, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a239bb268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=False, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1d341268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a21284268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1cec2268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a23403268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1e575268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a2125f268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a27bb7268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=500, num_trials=3, plot=True, seed=42)
+******************
+linUCB
+Regret: 1903.6666666666667
+Average performance: 0.6213869000265181
+Incorrect: 0.37861309997348186
+Test: 0.7253333333333334----------------------------
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=500, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 1888.0
+Average performance: 0.624502784407319
+Incorrect: 0.375497215592681
+Test: 0.718----------------------------
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a261d2268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'LASSO'], datafile='features.npz', delta=0.1, num_test=0, num_trials=1, plot=True, seed=42)
+******************
+linUCB
+Regret: 2069.0
+Average performance: 0.6257235890014472
+Incorrect: 0.3742764109985528
+----------------------------
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a25bd2268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a24567268>, seed=42)
+******************
+Namespace(agent=['linUCB', 'real'], datafile='features_real.npz', delta=0.1, linucb=True, num_test=500, num_trials=10, plot=True, reward=<function real_reward at 0x1a1f1a8268>, seed=42)
+******************

@@ -9,7 +9,13 @@ class LinUCBHybridAgent():
         self.A = []
         self.B = []
         self.b = []
+        self.z = []
+        thresh = [0, 3, 7, 10]
         for a in range(num_actions):
+            z = np.zeros((k,1))
+            z[thresh[a]:thresh[a+1]] = 1
+            self.z.append(z)
+
             self.A.append(np.identity(d))
             self.B.append(np.zeros((d, k)))
             self.b.append(np.zeros((d, 1)))
@@ -33,8 +39,8 @@ class LinUCBHybridAgent():
                 self.b[a] - np.dot(self.B[a], beta)))
 
             s_terms = [
-                    [z.T, A_0_inv, z],
-                    [-2*z.T, A_0_inv, self.B[a].T, A_a_inv, x],
+                    [self.z[a].T, A_0_inv, self.z[a]],
+                    [-2*self.z[a].T, A_0_inv, self.B[a].T, A_a_inv, x],
                     [x.T, A_a_inv, x],
                     [x.T, A_a_inv, self.B[a], A_0_inv, self.B[a].T, 
                         A_a_inv, x]
@@ -42,7 +48,7 @@ class LinUCBHybridAgent():
             s = sum([np.linalg.multi_dot(elements)
                 for elements in s_terms])
 
-            p = np.dot(z.T, beta) + np.dot(x.T, theta) + self.alpha * np.sqrt(s)
+            p = np.dot(self.z[a].T, beta) + np.dot(x.T, theta) + self.alpha * np.sqrt(s)
             upper_confidence_bounds.append(p)
 
         return np.argmax(upper_confidence_bounds)
@@ -58,7 +64,7 @@ class LinUCBHybridAgent():
         self.A_0 += A_0_delta
         self.b_0 += b_0_delta
         self.A[a] += np.dot(x, x.T)
-        self.B[a] += np.dot(x, z.T)
+        self.B[a] += np.dot(x, self.z[a].T)
         self.b[a] += r * x
-        self.A_0 += np.dot(z, z.T) - A_0_delta
-        self.b_0 += r * z - b_0_delta
+        self.A_0 += np.dot(self.z[a], self.z[a].T) - A_0_delta
+        self.b_0 += r * self.z[a] - b_0_delta

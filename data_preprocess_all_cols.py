@@ -120,6 +120,9 @@ s1f_cols = [
     'Race_Unknown',
     'Race_nan',
     ]
+    
+normalize_features = df[['Age', 'Height (cm)', 'Weight (kg)']]
+df[['Age', 'Height (cm)', 'Weight (kg)']] = (normalize_features-normalize_features.mean())/normalize_features.std()
 
 cols = df.columns
 other_cols = [x for x in cols if x not in s1f_cols]

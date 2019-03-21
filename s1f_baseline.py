@@ -63,5 +63,8 @@ df['Predicted Bucket'] = df['Daily Dose'].map(
 
 #print(df.head(5))
 print(len(df))
+regret = sum(df['True Bucket'] != df['Predicted Bucket'])
+print("Regret:", regret)
+print("Incorrect doses percent:", regret/len(df))
 print("Basline Accuracy: %f" % (sum(df['True Bucket'] == df['Predicted Bucket'])/len(df)))
 # Basline Accuracy: 0.650801

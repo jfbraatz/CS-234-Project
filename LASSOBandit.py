@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.linear_model import Lasso
+from sklearn.linear_model import Lasso, LinearRegression
 
 class LASSOBandit():
     # Performance: 0.6306078147612156
@@ -33,13 +33,18 @@ class LASSOBandit():
             
 
     def beta(self, S, lambd):
-        lasso = Lasso(alpha=lambd/2, fit_intercept=False)
+        alpha = lambd/2.0
+        if alpha < 1e-15:
+            print("alpha too small, using linear regression")
+            clf = LinearRegression(fit_intercept=False)
+        else:
+            clf = Lasso(alpha=lambd/2, fit_intercept=False,)
         X = [self.X[i] for i in S]
         Y = [self.Y[i] for i in S]
         X = np.array(X)
         X = X.reshape(X.shape[0], -1)
-        lasso.fit(X, Y)
-        return lasso.coef_
+        clf.fit(X, Y)
+        return clf.coef_
     
     def predict(self, X_t):
         self.t += 1

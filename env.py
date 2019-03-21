@@ -59,8 +59,8 @@ action_dim = 3
 print(args.agent)
 
 if args.plot:
-    colors = {"fixed_dose":"red", "linUCB":"blue", "hybrid":"green", "LASSO":"purple"}
-    colorse = {"fixed_dose":"lightcoral", "linUCB":"skyblue", "hybrid":"springgreen", "LASSO":"violet"}
+    colors = {"fixed_dose":"red", "linUCB":"blue", "hybrid":"green", "LASSO":"purple", "s1f":"black"}
+    colorse = {"fixed_dose":"lightcoral", "linUCB":"skyblue", "hybrid":"springgreen", "LASSO":"violet", "s1f":"grey"}
     regret_fig = plt.figure()
     regret_ax = regret_fig.add_subplot(111)
 
@@ -72,26 +72,26 @@ if args.plot:
         test_ax = test_fig.add_subplot(111)
 
 for agent_name in args.agent:
-    alpha = 1 + np.sqrt(np.log(2/args.delta)/2)
-    if agent_name == 'fixed_dose':
-        agent = Baseline1()
-    elif agent_name == 's1f':
-        agent = s1fBaseline(N)
-    elif agent_name == 'linUCB':
-        agent = LinUCBAgent(alpha, action_dim, N)
-    elif agent_name == 'hybrid':
-        agent = LinUCBHybridAgent(alpha, action_dim, N, N)
-    elif agent_name == 'LASSO':
-        agent = LASSOBandit(action_dim, N, 1, 5, 0.05, 0.05)
-    else:
-        print("Invalid agent")
-        continue
-
     test_performances = []
     test_intervals = []
     regret = []
     performances = []
     for j in range(args.num_trials):
+        alpha = 1 + np.sqrt(np.log(2/args.delta)/2)
+        if agent_name == 'fixed_dose':
+            agent = Baseline1()
+        elif agent_name == 's1f':
+            agent = s1fBaseline(N)
+        elif agent_name == 'linUCB':
+            agent = LinUCBAgent(alpha, action_dim, N)
+        elif agent_name == 'hybrid':
+            agent = LinUCBHybridAgent(alpha, action_dim, N, 10)
+        elif agent_name == 'LASSO':
+            agent = LASSOBandit(action_dim, N, 1, 5, 0.05, 0.05)
+        else:
+            print("Invalid agent")
+            continue
+
         print(f"Starting iteration {j} for {agent_name}")
         shuffled = np.random.permutation(np.column_stack((Y_train, X_train)))
         Y_train = shuffled[:, 0]
@@ -113,6 +113,7 @@ for agent_name in args.agent:
 
                 test_performance = 1.0 - test_regret / args.num_test
                 test_performances[j].append(test_performance)
+                # print(f'Test performance on iteration {i} on {args.num_test} patients: {test_performance}')
 
             x = np.expand_dims(X_train[i, :], axis=1)
             prediction = agent.predict(x)
@@ -164,9 +165,8 @@ for agent_name in args.agent:
         t = np.arange(num_train)
         regret_ax.plot(t, avg_regret, label=agent_name, color=colors[agent_name])
 
-        err_min = np.abs(avg_incorrect_decisions - np.min(incorrect_decisions, axis=0))
-        err_max = np.abs(avg_incorrect_decisions - np.max(incorrect_decisions, axis=0))
-        performance_ax.errorbar(t, avg_incorrect_decisions, yerr=[err_min, err_max], color=colors[agent_name], ecolor=colorse[agent_name], label=agent_name)
+        err = np.std(incorrect_decisions, axis=0)
+        performance_ax.errorbar(t[2:], avg_incorrect_decisions[2:], yerr=err[2:], color=colors[agent_name], ecolor=colorse[agent_name], label=agent_name)
 
         if args.num_test:
             test_performances = np.array(test_performances)
@@ -189,15 +189,21 @@ if args.plot:
     # plt.plot(t, np.sqrt(action_dim * N * t), label='asymtotic bound')
     regret_ax.legend(loc='best')
     regret_ax.set_title(f'Average Regret')
+    regret_ax.set_ylabel(f'Regret (# Incorrect Decisions) ')
+    regret_ax.set_xlabel(f't (Patients Seen)')
     regret_fig.savefig('regret.png')
 
     performance_ax.legend(loc='best')
-    performance_ax.set_title(f'Average Incorrect Decisions')
+    performance_ax.set_title(f'Average Incorrect Dosages')
+    performance_ax.set_ylabel(f'% Incorrect Dosages')
+    performance_ax.set_xlabel(f't (Patients Seen)')
     performance_fig.savefig('performance.png')
 
     if args.num_test:
         test_ax.set_title(f'Test Performance Over Time')
         test_ax.legend(loc='best')
+        test_ax.set_ylabel(f'% Correct on test set')
+        test_ax.set_xlabel(f't (Patients Seen)')
         test_fig.savefig('test.png')
 
 
