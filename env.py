@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import os.path
+#import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import argparse
 
@@ -9,6 +12,7 @@ from linUCBHybridAgent import *
 from linUCBAgent import *
 from s1fBaseline import *
 from baseline import *
+from XGBandit import *
 
 def get_data_npy(loadfile='data/train_data.npz'):
     # load existing numpy data
@@ -25,7 +29,7 @@ parser.add_argument('-p', '--plot', action='store_false')
 parser.add_argument('--seed', default=42, type=int)
 parser.add_argument('-t', '--num_test', default=0, type=int)
 parser.add_argument('-n', '--num_trials', default=1, type=int)
-parser.add_argument('--datafile', default='features.npz')
+parser.add_argument('--datafile', default='features_12.npz')
 args = parser.parse_args()
 
 if os.path.isfile(args.datafile): 
@@ -59,8 +63,8 @@ action_dim = 3
 print(args.agent)
 
 if args.plot:
-    colors = {"fixed_dose":"red", "linUCB":"blue", "hybrid":"green", "LASSO":"purple", "s1f":"black"}
-    colorse = {"fixed_dose":"lightcoral", "linUCB":"skyblue", "hybrid":"springgreen", "LASSO":"violet", "s1f":"grey"}
+    colors = {"fixed_dose":"red", "linUCB":"blue", "hybrid":"green", "LASSO":"purple", "s1f":"black", "XGBandit": "brown"}
+    colorse = {"fixed_dose":"lightcoral", "linUCB":"skyblue", "hybrid":"springgreen", "LASSO":"violet", "s1f":"grey", "XGBandit": "peru"}
     regret_fig = plt.figure()
     regret_ax = regret_fig.add_subplot(111)
 
@@ -88,6 +92,8 @@ for agent_name in args.agent:
             agent = LinUCBHybridAgent(alpha, action_dim, N, 10)
         elif agent_name == 'LASSO':
             agent = LASSOBandit(action_dim, N, 1, 5, 0.05, 0.05)
+        elif agent_name == 'XGBandit':
+            agent = XGBandit(action_dim, N, 1, 5, 0.05, 0.05)
         else:
             print("Invalid agent")
             continue
@@ -125,8 +131,9 @@ for agent_name in args.agent:
                 agent.update_reward(reward, prediction, x)
             elif agent_name == 'hybrid':
                 agent.update_reward(reward, prediction, x, x)
-            elif agent_name == 'LASSO':
+            elif agent_name == 'LASSO' or agent_name == 'XGBandit':
                 agent.update_reward(reward)      
+
 
         if args.num_test:
             test_intervals[j].append(i)
