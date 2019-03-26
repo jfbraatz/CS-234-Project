@@ -29,7 +29,7 @@ parser.add_argument('-p', '--plot', action='store_false')
 parser.add_argument('--seed', default=42, type=int)
 parser.add_argument('-t', '--num_test', default=0, type=int)
 parser.add_argument('-n', '--num_trials', default=1, type=int)
-parser.add_argument('--datafile', default='features_12.npz')
+parser.add_argument('--datafile', default='features.npz')
 args = parser.parse_args()
 
 if os.path.isfile(args.datafile): 
